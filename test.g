@@ -1,7 +1,9 @@
 Read("chg.g");
 
-B := Quiver(3,  [[1,2, "a"], [2,1,"A"], [2,3, "b"], [3,2,"B"], [3,1, "c"], [1,3,"C"]]);
-Q := Trapez(3);
+#B := Quiver(3,  [[1,2, "a"], [2,1,"A"], [2,3, "b"], [3,2,"B"], [3,1, "c"], [1,3,"C"]]);
+#B := Quiver(3,  [[1,2, "a"], [2,3, "b"], [3,1, "c"]]);
+B := QuiverCycle(5);
+Q := Trapez(4);
 #Q := Quiver(2, [[1,2]]);
 #B := Quiver(3,  [[1,2, "a"], [2,3, "b"], [3,1, "c"]]);
 #Q := StrongProduct(B,B);
@@ -15,8 +17,8 @@ n := 7;
 SetInfoLevel(InfoGlobal, 2);
 #SetInfoLevel(InfoGBNP, 2);
 
-prev := [];
-#prev := Cohomologies(Q, n);
+#prev := [];
+prev := Cohomologies(Q, n);
 addedDia := [];
 #dia := SquareDiagonals(Q);
 Display(prev);

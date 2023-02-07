@@ -141,6 +141,17 @@ Trapez := function(k)
     return Quiver(vertices, edges);
 end;
 
+QuiverCycle := function(k)
+    local vertices, edges, i;
+    vertices := k;
+    edges := [];
+    for i in [1..k] do
+        Add(edges, [i, (i mod k)+1]);
+    od;
+
+    return Quiver(vertices, edges);
+end;
+
 Diagonals := function(Q)
     local u, diag, a, b, k, l;
     diag := Set([]);

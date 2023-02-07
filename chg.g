@@ -181,7 +181,7 @@ Cohomologies := function(Q, n, args...)
     gb := GBNPGroebnerBasisTrunc( rels, PA );
     I := Ideal( PA, gb );
 
-    Info(InfoGlobal, 1, "Groebner basis calculated!");
+    #Info(InfoGlobal, 1, "Groebner basis calculated!");
 
     if Length(gb) = 0 then
         Info(InfoGlobal, 1, "Implementing cringe strategies...");
@@ -287,7 +287,6 @@ Cohomologies := function(Q, n, args...)
     for ind in [1..n] do  
         #Print(ind-1, "-th:\n");
         matrix := NullMat(Length(OmegaBasis[ind]), Length(quobasis), Rationals);
-        #Print(i-1, "-th:\n");
         countj := 1;
         for be in OmegaBasis[ind] do
             img := diff(be);
@@ -299,6 +298,7 @@ Cohomologies := function(Q, n, args...)
         od;
         #Print(ind-1, "-th:\n");
         #Display(matrix);
+        Info(InfoGlobal, 1, ind-1, "-th matrix calculated!");
         rank := 0;
         if Length(OmegaBasis[ind]) > 0 then
             rank := Rank(matrix);
