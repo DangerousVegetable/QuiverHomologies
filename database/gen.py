@@ -144,11 +144,11 @@ def connected(n, graph):
 
     return all(x for x in a)
 
-def convert(graph):
+def convert(n, graph):
     l = []
     for a,b in graph:
         l.append([a+1,b+1])
-    return l
+    return f"Quiver({n}, {l})"
 
 def test(n = 5):
     graphs = enumerate_graphs(n)
@@ -156,7 +156,7 @@ def test(n = 5):
     for g in graphs:
         if not connected(n, g):
             continue
-        g = convert(g)
+        g = convert(n, g)
         f.write(str(g)+"\n")
         print(g)
     f.close()
