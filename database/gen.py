@@ -144,17 +144,61 @@ def connected(n, graph):
 
     return all(x for x in a)
 
+def check_isolated(n, graph):
+    a = [0 for _ in range(n)]
+    for x,y in graph:
+        a[x]+=1
+        a[y]+=1
+
+    return all(x > 1 for x in a)
+
+def check_triangles(n, graph):
+    a = [[] for _ in range(n)]
+    for x,y in graph:
+        a[x].append(y)
+        a[y].append(x)
+
+    for i in range(n):
+        if len(a[i]) == 2:
+            x,y = a[i]
+            if ((x, y) in graph and ((x, i) in graph or (i, y) in graph)) or \
+                ((y, x) in graph and ((i, x) in graph or (y, i) in graph)):
+                return False
+    return True
+
+def check_contractible(n, graph):
+    a = [[] for _ in range(n)]
+    for x,y in graph:
+        a[x].append(y)
+        a[y].append(x)
+    
+    for i in range(n):
+        for c in a[i]:
+            if all(x == c or ((x,c) in graph and (x,i) in graph) or ((c,x) in graph and (i,x) in graph) for x in a[i]):
+                return False
+    return True
+
+def di(n, graph):
+    for x,y in graph:
+        if (y,x) in graph:
+            return False
+    return True
+
+def is_valid(n, graph):
+    return di(n,graph) and connected(n, graph) and check_isolated(n, graph) and check_contractible(n, graph)
+
+
 def convert(n, graph):
     l = []
     for a,b in graph:
         l.append([a+1,b+1])
-    return f"Quiver({n}, {l})"
+    return f"[{n}, {l}],"
 
 def test(n = 5):
     graphs = enumerate_graphs(n)
-    f = open(f"data_connected{n}.dat", 'w')
+    f = open(f"data_filtered{n}.dat", 'w')
     for g in graphs:
-        if not connected(n, g):
+        if not is_valid(n, g):
             continue
         g = convert(n, g)
         f.write(str(g)+"\n")
