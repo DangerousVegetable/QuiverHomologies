@@ -4,8 +4,8 @@ Read("qop.g");
 
 
 Cohomologies := function(Q, n, args...)
-    local PA, rels, qsize, adj, v, radj, sadj, GBNPGroebnerBasisTrunc, FastNontips, FastBasis, CustomBasis, FastCoefficients, gb, I, grb, QA, quobasis, OmegaBasis, i, p, diff, ranks, ind, dimKer, dimImg, dimHom,
-    a, b, k, l, u, j, matrix, countj, be, img, coeff, rank, cringe;
+    local PA, rels, qsize, adj, v, radj, sadj, GBNPGroebnerBasisTrunc, FastNontips, FastBasis, CustomBasis, FastCoefficients, gb, I, grb, QA, quobasis, OmegaBasis, i, p, diff, ranks, Ker, Img, Cohom, ind, dimKer, dimImg, dimHom,
+    a, b, k, l, u, j, matrix, countj, be, img, coeff, shift, vker, kerv, coh, cohrepr, rank, newrank, cringe;
     #Display(Q);
 
     #relations
@@ -284,6 +284,11 @@ Cohomologies := function(Q, n, args...)
 
 
     ranks := [];
+
+    Ker := [];
+    Img := [[]];
+    Cohom := [];
+
     for ind in [1..n] do  
         #Print(ind-1, "-th:\n");
         matrix := NullMat(Length(OmegaBasis[ind]), Length(quobasis), Rationals);
@@ -298,6 +303,53 @@ Cohomologies := function(Q, n, args...)
         od;
         #Print(ind-1, "-th:\n");
         #Display(matrix);
+
+
+
+        #------------- FOLLOWING STUFF IS OPTIONAL ---------------- (comment if not needed):
+        #Let's calculate Ker and Img basis vectors:
+
+        Add(Img, matrix); #RIP operation
+        Add(Ker, []);
+
+        if Length(matrix) > 0 then
+            shift := Sum(List(OmegaBasis{[1..ind-1]}, Length)); #shift = sum of previous dims
+            for kerv in NullspaceMat(matrix) do #appending v in Ker with appropriate number of zeros
+                vker := List([1..Length(quobasis)], x->0);
+                vker{[shift+1..shift+Length(kerv)]} := kerv;
+
+                Add(Ker[ind], vker);
+            od;
+        fi;
+        Add(Cohom, []);
+
+        rank := 0;
+        if Length(Img[ind]) > 0 then
+            rank := Rank(Img[ind]);
+        fi;
+        for be in Ker[ind] do
+            Add(Img[ind], be);  
+            
+            newrank := Rank(Img[ind]);
+            
+            if newrank > rank then 
+                Add(Cohom[ind], be);
+                rank := newrank;
+            else
+                Remove(Img[ind]);
+            fi;
+        od;
+
+        Info(InfoGlobal, 1, ind-1, "-th Cohomology basis:");
+        for coh in Cohom[ind] do
+            cohrepr := Zero(QA);
+            for i in [1..Length(coh)] do 
+                cohrepr := cohrepr + coh[i]*quobasis[i];
+            od;
+            Info(InfoGlobal, 1, "\t", cohrepr);
+        od;
+        #------------- THE STUFF AVOVE IS OPTIONAL ---------------- (comment if not needed)
+
         Info(InfoGlobal, 1, ind-1, "-th matrix calculated!");
         rank := 0;
         if Length(OmegaBasis[ind]) > 0 then

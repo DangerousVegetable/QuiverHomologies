@@ -9,7 +9,9 @@ Read("chg.g");
 
 SetInfoLevel(InfoGlobal, 1);
 
-n := 6;
+LogTo("GodHelpMe.txt");
+
+n := 7;
 e := [];
 for i in [0..n-1] do
     Add(e, [i, (i+1) mod n]);
@@ -26,7 +28,7 @@ for i in [0..n-1] do
     Add(e, [(2*n-1-((i-1) mod n)), i]);
 od;
 
-e := List(e, x -> [x[1]+1, x[2]+1]);
+e := List(e, x -> [x[1]+1, x[2]+1, NewName(x[1]+1, x[2]+1)]);
 for edge in e do
     Print(edge[1], " ", edge[2], "\n");
 od;
@@ -38,4 +40,5 @@ od;
 Display("\n");
 
 Q := Quiver(2*n, e);
-Display(Cohomologies(Q, 5));
+Display(Q);
+Display(Cohomologies(Q, 6));
