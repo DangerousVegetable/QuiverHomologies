@@ -29,7 +29,7 @@ BoxProduct := function(q1, q2)
     return Quiver(vert, edges);
 end;
 
-StrongProduct := function(q1, q2)
+QuiverStrongProduct := function(q1, q2)
     local u, v, vq1, vq2, vert, edges, o, e;
 
     vq1 := VerticesOfQuiver(q1);

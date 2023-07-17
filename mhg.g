@@ -1,6 +1,4 @@
 LoadPackage("digraphs");
-#DigraphsTestInstall();
-
 
 MagnitudeHomologies := function(D, N, L)
     local size, distmat, totalDist, allSeq, i, j, seq, isRegular, getIndex, diff, ranks, Ker, Img, Hom, matrix, w, coeff;
