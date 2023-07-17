@@ -3,7 +3,7 @@ Read("qop.g");
 
 
 
-Cohomologies := function(Q, n, args...)
+PathCohomologies := function(Q, n, args...)
     local PA, rels, qsize, adj, v, radj, sadj, GBNPGroebnerBasisTrunc, FastNontips, FastBasis, CustomBasis, FastCoefficients, gb, I, grb, QA, quobasis, OmegaBasis, i, p, diff, ranks, Ker, Img, Cohom, ind, dimKer, dimImg, dimHom,
     a, b, k, l, u, j, matrix, countj, be, img, coeff, shift, vker, kerv, coh, cohrepr, rank, newrank, cringe;
     #Display(Q);
@@ -189,7 +189,7 @@ Cohomologies := function(Q, n, args...)
         PA := PathAlgebra(Rationals, Q);
         rels := [ElementOfPathAlgebra(PA, OutgoingArrowsOfVertex(Q.null1)[1])];
 
-        cringe := Cohomologies(Q, n, PA, rels);
+        cringe := PathCohomologies(Q, n, PA, rels);
         cringe[1] := cringe[1] - 2;
         return cringe;
     fi;
