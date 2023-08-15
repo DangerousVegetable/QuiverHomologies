@@ -10,7 +10,7 @@ edges := [[1,2], [2,3], [3,4], [4,5], [5,6], [6,1]];
 D := DigraphByEdges(edges, size);
 
 for j in [1..2*size] do
-        MH := MagnitudeHomologies(D, j+1, j);
+        MH := MagnitudeHomologies(GF(2), D, j+1, j);
         Print(j, ": ", MH, "\n");
 od;
 

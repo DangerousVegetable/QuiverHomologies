@@ -3,7 +3,7 @@ Read("qop.g");
 
 
 
-PathCohomologies := function(Q, n, args...)
+PathCohomologies := function(F, Q, n, args...)
     local PA, rels, qsize, adj, v, radj, sadj, GBNPGroebnerBasisTrunc, FastNontips, FastBasis, CustomBasis, FastCoefficients, gb, I, grb, QA, quobasis, OmegaBasis, i, p, diff, ranks, Ker, Img, Cohom, ind, dimKer, dimImg, dimHom,
     a, b, k, l, u, j, matrix, countj, be, img, coeff, shift, vker, kerv, coh, cohrepr, rank, newrank, cringe;
     #Display(Q);
@@ -11,7 +11,7 @@ PathCohomologies := function(Q, n, args...)
     #relations
     if Length(args) = 0 then
         rels := [];
-        PA := PathAlgebra( Rationals, Q );
+        PA := PathAlgebra( F, Q );
     else 
         PA := args[1];
         rels := args[2];
@@ -186,10 +186,10 @@ PathCohomologies := function(Q, n, args...)
     if Length(gb) = 0 then
         Info(InfoGlobal, 1, "Implementing cringe strategies...");
         Q := AddEdge(AddVertex(AddVertex(Q, "null1"), "null2"), ["null1", "null2"]);
-        PA := PathAlgebra(Rationals, Q);
+        PA := PathAlgebra(F, Q);
         rels := [ElementOfPathAlgebra(PA, OutgoingArrowsOfVertex(Q.null1)[1])];
 
-        cringe := PathCohomologies(Q, n, PA, rels);
+        cringe := PathCohomologies(F, Q, n, PA, rels);
         cringe[1] := cringe[1] - 2;
         return cringe;
     fi;
@@ -291,7 +291,7 @@ PathCohomologies := function(Q, n, args...)
 
     for ind in [1..n] do  
         #Print(ind-1, "-th:\n");
-        matrix := NullMat(Length(OmegaBasis[ind]), Length(quobasis), Rationals);
+        matrix := NullMat(Length(OmegaBasis[ind]), Length(quobasis), F);
         countj := 1;
         for be in OmegaBasis[ind] do
             img := diff(be);
@@ -315,7 +315,7 @@ PathCohomologies := function(Q, n, args...)
         if Length(matrix) > 0 then
             shift := Sum(List(OmegaBasis{[1..ind-1]}, Length)); #shift = sum of previous dims
             for kerv in NullspaceMat(matrix) do #appending v in Ker with appropriate number of zeros
-                vker := List([1..Length(quobasis)], x->0);
+                vker := List([1..Length(quobasis)], x->Zero(F));
                 vker{[shift+1..shift+Length(kerv)]} := kerv;
 
                 Add(Ker[ind], vker);

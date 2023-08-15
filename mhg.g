@@ -1,6 +1,6 @@
 LoadPackage("digraphs");
 
-MagnitudeHomologies := function(D, N, L)
+MagnitudeHomologies := function(F, D, N, L)
     local size, distmat, totalDist, allSeq, i, j, seq, isRegular, getIndex, diff, ranks, Ker, Img, Hom, matrix, w, coeff;
     distmat := DigraphShortestDistances(D);
 
@@ -57,13 +57,13 @@ MagnitudeHomologies := function(D, N, L)
     diff := function(l)
         local i, copyl, res;
 
-        res := List([1..size^(Length(l)-1)], x -> 0);
+        res := List([1..size^(Length(l)-1)], x -> Zero(F));
         for i in [1..Length(l)] do
             copyl := ShallowCopy(l);
             Remove(copyl, i);
             if isRegular(copyl) then 
                 #Print(copyl, " ", getIndex(copyl), "\n");
-                res[getIndex(copyl)] := (-1)^i;
+                res[getIndex(copyl)] := (-1)^i * One(F);
             fi;
         od;    
         return res;     
@@ -72,7 +72,7 @@ MagnitudeHomologies := function(D, N, L)
     #Display(diff([4,3,4,2]));
     ranks := [];
     for i in [1..N] do 
-        matrix := NullMat(Length(seq[i]), size^(i-1), Rationals);
+        matrix := NullMat(Length(seq[i]), size^(i-1), F);
         for j in [1..Length(seq[i])] do
             w := seq[i][j];
             coeff := diff(w);
