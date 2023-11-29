@@ -41,4 +41,4 @@ Display("\n");
 
 Q := Quiver(2*n, e);
 Display(Q);
-Display(Cohomologies(Q, 6));
+Display(PathCohomologies(Rationals, Q, 6));
