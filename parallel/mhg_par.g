@@ -123,14 +123,12 @@ MagnitudeHomologies := function(F, Q, N, L, THREADS)
                 coeff := diff(w);
                 fixedDiffMatrix[j] := coeff;
             od;
-            
-            #Print(i, ":------------------------\n");
-            #for w in fixedDiffMatrix do
-            #    Print(w, "\n");
-            #od;
 
             if Length(fixedSeq[i]) = 0 then Add(fixedRanks, 0); continue; fi;
             Add(fixedRanks, Rank(fixedDiffMatrix));
+
+            Print("Hello from: ", CurrentThread(), "\n");
+            
         od;
 
         #Info(InfoGlobal, 2, "Ranks: ", ranks);
@@ -151,27 +149,15 @@ MagnitudeHomologies := function(F, Q, N, L, THREADS)
         return fixedHom;
     end;
 
-
-
-    #Hom := List([2..N], x -> 0);
-    #tasks := [];
-    #for i in [1..size] do
-    #    for j in [1..size] do
-    #        temp := fixedHom(i,j);
-    #        for k in [1..Length(temp)] do 
-    #            Hom[k] := Hom[k] + temp[k];
-    #        od;
-    #    od;
-    #od;
-
     tasks := [];
     for i in [1..size] do
         for j in [1..size] do
             if Length(tasks) < THREADS then 
-                Add(tasks, RunTask(fixedHom, i, j));
+                Add(tasks, RunTask(fixedHom, i, j));                
             else 
                 Add(tasks, ScheduleTask(tasks{[Length(tasks)-THREADS+1]}, fixedHom, i, j));
             fi;
+            #Print("Added: ", i, " ", j, "\n");
         od;
     od;
 

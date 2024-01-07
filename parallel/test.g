@@ -1,5 +1,5 @@
 Read("mhg_par.g");
-#SetInfoLevel(InfoGlobal, 2);
+SetInfoLevel(InfoGlobal, 2);
 size := 5;
 iterations := 7;
 edges := [];;
