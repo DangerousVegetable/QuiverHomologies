@@ -218,6 +218,7 @@ PathCohomologies := function(F, Q, n, args...)
     Info(InfoGlobal, 2, "Omega basis: ", quobasis);
     for i in [1..Length(OmegaBasis)] do
         Info(InfoGlobal, 1, i, "-th component: ", Length(OmegaBasis[i]));
+        Info(InfoGlobal, 2, i, "-th component basis: ", OmegaBasis[i]);
     od;
     #Display(OmegaBasis);
 
